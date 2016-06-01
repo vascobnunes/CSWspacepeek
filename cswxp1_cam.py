@@ -10,7 +10,7 @@ PHOTO_DIR="/home/pi/cswxp1/photo"
 
 VIDEO_WIDTH_RES=1920
 VIDEO_HEIGHT_RES=1080
-VIDEO_DURATION_SECS=6
+VIDEO_DURATION_SECS=20
 VIDEO_DIR="/home/pi/cswxp1/video"
 
 def currentTimestamp():
