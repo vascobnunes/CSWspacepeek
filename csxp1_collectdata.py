@@ -1,11 +1,12 @@
-from grovepi import *
 import csv
 import datetime
 import time
 import smbus
 import sys
 import RPi.GPIO as GPIO
-sys.path.append('/root/grovepi/Software/Python/grove_barometer_sensors/barometric_sensor_bmp180')
+sys.path.insert(1, '/root/grovepi/Software/Python')
+sys.path.insert(1, '/root/grovepi/Software/Python/grove_barometer_sensors/barometric_sensor_bmp180')
+from grovepi import *
 from grove_i2c_barometic_sensor_BMP180 import BMP085
 
 # Initialise the BMP085 and use STANDARD mode (default value)
