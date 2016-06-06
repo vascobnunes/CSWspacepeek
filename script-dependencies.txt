@@ -1,0 +1,9 @@
+cswxp1_camera.py:
+ - make sure raspistill and raspivid commands are available in the system 
+
+cswxp1_sensors.py:
+  - Follow instructions on http://www.dexterindustries.com/GrovePi/get-started-with-the-grovepi/setting-software/
+  - setup GrovePi in a way that it is available under /root/GrovePi
+  - apt install python-rtimulib
+  - callibrate sensors with RTIMULibCal
+

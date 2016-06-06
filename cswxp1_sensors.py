@@ -1,6 +1,5 @@
 import sys, getopt
-sys.path.insert(1, '/root/grovepi/Software/Python')
-sys.path.append('.')
+sys.path.insert(1, '/root/GrovePi/Software/Python')
 import RTIMU
 import os.path
 import time
