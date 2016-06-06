@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys, getopt
 sys.path.insert(1, '/root/GrovePi/Software/Python')
 import RTIMU
