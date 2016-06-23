@@ -3,27 +3,27 @@ from time import sleep
 from datetime import datetime
 import os
 
-PHOTO_WIDTH_RES=1920
-PHOTO_HEIGHT_RES=1080
+PHOTO_WIDTH_RES=2592
+PHOTO_HEIGHT_RES=1944
 PHOTO_QUALITY=98
 PHOTO_DIR="/home/pi/cswxp1/photo"
 
 VIDEO_WIDTH_RES=1920
 VIDEO_HEIGHT_RES=1080
 VIDEO_DURATION_SECS=20
+VIDEO_FPS=30
 VIDEO_DIR="/home/pi/cswxp1/video"
 
 def currentTimestamp():
-    now = datetime.now()
-    return str(now.year) + str(now.month) + str(now.day) + str(now.hour) + str(now.minute) + str(now.second)
+    return datetime.now().strftime('%Y%m%d%H%M%S')
 
 def takePicture():
     print("Taking pretty picture")
-    os.system("raspistill -w {} -h {} -q {} -t 200 -n -o {}/pic{}.jpg".format(PHOTO_WIDTH_RES, PHOTO_HEIGHT_RES, PHOTO_QUALITY, PHOTO_DIR, currentTimestamp())) 
+    os.system("raspistill -vf -ev auto -awb auto -w {} -h {} -q {} -t 200 -n -o {}/pic{}.jpg".format(PHOTO_WIDTH_RES, PHOTO_HEIGHT_RES, PHOTO_QUALITY, PHOTO_DIR, currentTimestamp())) 
 
 def recordVideo():
     print("Recording nifty video")
-    os.system("raspivid -w {} -h {} -t {} -n -o {}/vid{}.h264".format(VIDEO_WIDTH_RES, VIDEO_HEIGHT_RES, VIDEO_DURATION_SECS*1000, VIDEO_DIR, currentTimestamp()))
+    os.system("raspivid -vf -fps {} -ev auto -awb auto -w {} -h {} -t {} -n -o {}/vid{}.h264".format(VIDEO_FPS, VIDEO_WIDTH_RES, VIDEO_HEIGHT_RES, VIDEO_DURATION_SECS*1000, VIDEO_DIR, currentTimestamp()))
 
 def mainLoop():
     while True:

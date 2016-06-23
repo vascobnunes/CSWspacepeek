@@ -82,8 +82,13 @@ while True:
         time.sleep(3)
         # print(imu.getAccel())
         x, y, z = imu.getFusionData()
-        [temp,hum]=dht(dht_sensor_port,1)
+        try:
+            [temp,hum]=dht(dht_sensor_port,1)
+        except:
+            print("{} ERROR reading sensors data!".format(datetime.datetime.now()))
+            continue
         print("%f %f %f" % (x,y,z))
+        print(datetime.datetime.now())
         data = imu.getIMUData()
         (data["pressureValid"], data["pressure"], data["temperatureValid"], data["temperature"]) = pressure.pressureRead()
         #(data["humidityValid"], data["humidity"], data["humidityTemperatureValid"], data["humidityTemperature"]) = humidity.humidityRead()
