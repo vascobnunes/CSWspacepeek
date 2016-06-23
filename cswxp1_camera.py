@@ -19,11 +19,11 @@ def currentTimestamp():
 
 def takePicture():
     print("Taking pretty picture")
-    os.system("raspistill -vf -ev auto -awb auto -w {} -h {} -q {} -t 200 -n -o {}/pic{}.jpg".format(PHOTO_WIDTH_RES, PHOTO_HEIGHT_RES, PHOTO_QUALITY, PHOTO_DIR, currentTimestamp())) 
+    os.system("raspistill -vf --timeout 500 -ex snow -sa 0 -co 0 -sh 0 -mm average -ev 0 -awb sun --ISO 100 -w {} -h {} -q {} -t 200 -n -o {}/pic{}.jpg".format(PHOTO_WIDTH_RES, PHOTO_HEIGHT_RES, PHOTO_QUALITY, PHOTO_DIR, currentTimestamp())) 
 
 def recordVideo():
     print("Recording nifty video")
-    os.system("raspivid -vf -fps {} -ev auto -awb auto -w {} -h {} -t {} -n -o {}/vid{}.h264".format(VIDEO_FPS, VIDEO_WIDTH_RES, VIDEO_HEIGHT_RES, VIDEO_DURATION_SECS*1000, VIDEO_DIR, currentTimestamp()))
+    os.system("raspivid -vf -fps {} -awb auto -w {} -h {} -t {} -n -o {}/vid{}.h264".format(VIDEO_FPS, VIDEO_WIDTH_RES, VIDEO_HEIGHT_RES, VIDEO_DURATION_SECS*1000, VIDEO_DIR, currentTimestamp()))
 
 def mainLoop():
     while True:
