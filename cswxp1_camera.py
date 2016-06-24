@@ -12,6 +12,7 @@ VIDEO_WIDTH_RES=1920
 VIDEO_HEIGHT_RES=1080
 VIDEO_DURATION_SECS=20
 VIDEO_FPS=30
+VIDEO_BITRATE=14*1000000 # Bitrate should be between 10 and 17 for noticeable video quality (from worst to best)
 VIDEO_DIR="/home/pi/cswxp1/video"
 
 def currentTimestamp():
@@ -23,7 +24,7 @@ def takePicture():
 
 def recordVideo():
     print("Recording nifty video")
-    os.system("raspivid -vf -fps {} -awb auto -w {} -h {} -t {} -n -o {}/vid{}.h264".format(VIDEO_FPS, VIDEO_WIDTH_RES, VIDEO_HEIGHT_RES, VIDEO_DURATION_SECS*1000, VIDEO_DIR, currentTimestamp()))
+    os.system("raspivid -vf -fps {} -b {} -awb auto -w {} -h {} -t {} -n -o {}/vid{}.h264".format(VIDEO_FPS, VIDEO_BITRATE, VIDEO_WIDTH_RES, VIDEO_HEIGHT_RES, VIDEO_DURATION_SECS*1000, VIDEO_DIR, currentTimestamp()))
 
 def mainLoop():
     while True:
