@@ -6,8 +6,8 @@ import itertools
 import random
 import time
 
-phrases_climbing=["Nice view from up here!","Can I go back now? :/","Watch me mum!"]
-phrases_falling=["Cause I'm free, free falling!","This is fun!","Seriously, this is going too fast now..."]
+phrases_climbing=["Nice view from up here!","Can I go back now? :/","Watch me mum!", "You can follow my ascent in http://goo.gl/WQLY0u"]
+phrases_falling=["Cause I'm free, free falling!","This is fun!","Seriously, this is going too fast now...", "You can follow my fall in http://goo.gl/WQLY0u"]
 cswspacepeek_dir=os.path.dirname(os.path.abspath(__file__))
 twiter_credentials_file=os.path.join(cswspacepeek_dir,"twiter_credentials.txt")
 f1=open("C:\\temp\\help.txt")
@@ -90,60 +90,63 @@ def main():
 	
 	while True:
 		time.sleep(60)
-		get_rawpackets(raw_packets)
+		today=time.strftime("%Y-%m-%d")
+		#get_rawpackets(raw_packets)
 		get_text_from_rawpackets("C:\\temp\\help2.txt")
 		f1=open("C:\\temp\\help.txt")
 		lastlines=tail(f1,lines=3)
 		altitude_base=0
+		temp=25
 		for a, b, c in itertools.combinations(lastlines, 3):
-			#Tweeting with the temperature values
-			if b.strip()[-2:]==c.strip()[-2:]:
-				temp=b.strip()[-2:].strip()
-			try:
-				if int(temp)<40:
-					tweet = "#CSEXPLORER1 : Its getting colder! - %sC" % (str(temp))
-					if not tweet in tweets:
-						tweets.append(tweet)
-						status = api.update_status(status=tweet)
-						print tweet
-				if int(temp)<0:
-					tweet = "#CSEXPLORER1 : Why didn't anyone send me a coat?! - %sC" % (str(temp))
-					if not tweet in tweets:
-						tweets.append(tweet)
-						status = api.update_status(status=tweet)
-						print tweet
-			except:
-				print "Something went wrong! Trying to continue..."			
-				continue				
-			# #Tweeting with the altitude values
-			try:
-				altitude=(int(a[a.find("|")+1:a.find("/")].strip())+int(b[b.find("|")+1:b.find("/")].strip())+int(c[c.find("|")+1:c.find("/")].strip()))/3
-				if altitude>altitude_base:
-					for marks in altitude_marks_climbing:
-						if altitude>=marks:
-							tweet = "#CSEXPLORER1 : %s - alt: %sm" % (random.choice(phrases_climbing),str(altitude))
-							if not tweet in tweets:
-								tweets.append(tweet)
-								status = api.update_status(status=tweet)
-								print tweet
-					altitude_base=altitude
-				elif altitude<altitude_base:
-					tweet = "#CSEXPLORER1 : Wow, Something happened... My balloon just bursteeeeeeed!"
-					if not tweet in tweets and check_burst==0:
-						tweets.append(tweet)
-						status = api.update_status(status=tweet)
-						print tweet
-						check_burst=1
-					for marks in altitude_marks_climbing:
-						if altitude<=marks:
-							tweet = "#CSEXPLORER1 : %s - alt: %sm" % (random.choice(phrases_falling),str(altitude))
-							if not tweet in tweets:
-								tweets.append(tweet)
-								status = api.update_status(status=tweet)
-								print tweet
-					altitude_base=altitude
-			except:
-				print "Something went wrong! Trying to continue..."
-				continue		
+			if a[:10].strip()==today and b[:10].strip()==today and c[:10].strip()==today:
+				#Tweeting with the temperature values
+				if b.strip()[-2:]==c.strip()[-2:]:
+					temp=b.strip()[-2:].strip()
+				try:
+					if 0<int(temp)<10:
+						tweet = "#CSEXPLORER1 : Its getting colder! - %sC" % (str(temp))
+						if not tweet in tweets:
+							tweets.append(tweet)
+							#status = api.update_status(status=tweet)
+							print tweet
+					if int(temp)<=0:
+						tweet = "#CSEXPLORER1 : Why didn't anyone send me a coat?! - %sC" % (str(temp))
+						if not tweet in tweets:
+							tweets.append(tweet)
+							status = api.update_status(status=tweet)
+							print tweet
+				except:
+					print "Something went wrong! Code 01. Trying to continue..."			
+					continue				
+				#Tweeting with the altitude values
+				try:
+					altitude=(int(a[a.find("|")+1:a.find("/")].strip())+int(b[b.find("|")+1:b.find("/")].strip())+int(c[c.find("|")+1:c.find("/")].strip()))/3
+					if altitude>altitude_base:
+						for marks in altitude_marks_climbing:
+							if altitude>=marks:
+								tweet = "#CSEXPLORER1 : %s - alt: %sm" % (random.choice(phrases_climbing),str(altitude))
+								if not tweet in tweets:
+									tweets.append(tweet)
+									status = api.update_status(status=tweet)
+									print tweet
+						altitude_base=altitude
+					elif altitude<altitude_base:
+						tweet = "#CSEXPLORER1 : Wow, Something happened... My balloon just bursteeeeeeed!"
+						if not tweet in tweets and check_burst==0:
+							tweets.append(tweet)
+							status = api.update_status(status=tweet)
+							print tweet
+							check_burst=1
+						for marks in altitude_marks_climbing:
+							if altitude<=marks:
+								tweet = "#CSEXPLORER1 : %s - alt: %sm" % (random.choice(phrases_falling),str(altitude))
+								if not tweet in tweets:
+									tweets.append(tweet)
+									status = api.update_status(status=tweet)
+									print tweet
+						altitude_base=altitude
+				except:
+					print "Something went wrong! Code 02. Trying to continue..."
+					continue		
 if __name__ == "__main__":
   main()
